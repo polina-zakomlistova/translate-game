@@ -1,0 +1,12 @@
+.wrapper {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-row: 30px;
+    grid-column-gap: 10px;
+    grid-row-gap: 15px;
+    place-items: center;
+}
+.wrapper * {
+    height: 100%;
+}
