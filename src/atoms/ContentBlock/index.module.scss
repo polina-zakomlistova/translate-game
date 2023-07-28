@@ -21,3 +21,40 @@
     box-shadow: none;
     border: none;
 }
+
+.message {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    border: 2px solid #7d9185;
+    width: 50%;
+    min-height: 100px;
+}
+
+.message::after,
+.message::before {
+    content: ' ';
+    position: absolute;
+    right: 100%;
+    border: solid transparent;
+    height: 0;
+    width: 0;
+    pointer-events: none;
+}
+.message::after {
+    border-color: rgba(255, 255, 255, 0);
+    border-right-color: #ffffff;
+    border-width: 18px;
+    top: 50%;
+    margin-top: -18px;
+}
+.message::before {
+    border-color: rgba(125, 145, 133, 0);
+    border-right-color: #7d9185;
+    border-width: 20px;
+    top: 50%;
+    margin-top: -20px;
+}

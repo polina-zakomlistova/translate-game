@@ -1,11 +1,11 @@
-import Cart from './cart';
+import Translate from './translate';
 
 export default class RootStore {
-    cart: Cart;
+    translate: Translate;
     localStorage: Storage;
 
     constructor() {
-        this.cart = new Cart(this);
+        this.translate = new Translate(this);
         this.localStorage = window.localStorage;
     }
 }

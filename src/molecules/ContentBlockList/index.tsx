@@ -1,28 +1,39 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC } from 'react';
 import styles from './index.module.scss';
+import { classNames } from 'hooks/classNames';
 import ContentBlock, { ContentBlockTheme } from 'atoms/ContentBlock';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
+export enum ContentBlockListTheme {
+    LINE = 'line',
+}
+
 interface IpropsTextBlockList {
     className?: string;
-    contentList?: string[] | number[] | boolean[];
+    theme?: ContentBlockListTheme;
     themeContent?: ContentBlockTheme;
     themeEmpty?: ContentBlockTheme;
-    CellQuantity?: number;
+    contentList?: string[] | number[] | boolean[];
+    cellQuantity?: number;
 }
 
 const ContentBlockList: FC<IpropsTextBlockList> = (props) => {
-    const { contentList, themeContent, themeEmpty, CellQuantity } = props;
+    const {
+        contentList,
+        theme,
+        className,
+        themeContent,
+        themeEmpty,
+        cellQuantity,
+    } = props;
 
     const contentBlocks = [];
 
     if (contentList) {
         const COLS = 6;
         const contentCellQuantity = contentList.length;
-        const rows = Math.ceil(contentCellQuantity / COLS);
-        const cells = COLS * rows;
-        const cellsWithoutContent = cells - contentCellQuantity;
+        const cellsWithoutContent = COLS - (contentCellQuantity % COLS);
 
         contentList.map((content, index) =>
             contentBlocks.push(
@@ -45,10 +56,11 @@ const ContentBlockList: FC<IpropsTextBlockList> = (props) => {
         }
     }
 
-    if (CellQuantity) {
-        for (let i = 0; i <= CellQuantity; i++) {
+    if (cellQuantity) {
+        for (let i = 0; i <= cellQuantity; i++) {
             contentBlocks.push(
                 <ContentBlock
+                    className={styles.lined}
                     key={`empty-${i}`}
                     theme={themeEmpty || ContentBlockTheme.CLEAR}
                 />
@@ -58,7 +70,14 @@ const ContentBlockList: FC<IpropsTextBlockList> = (props) => {
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <div className={styles.wrapper}>{contentBlocks}</div>;
+            <div
+                className={classNames(styles.wrapper, {}, [
+                    className,
+                    styles[theme],
+                ])}
+            >
+                {contentBlocks}
+            </div>
         </DndProvider>
     );
 };

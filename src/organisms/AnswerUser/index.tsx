@@ -1,20 +1,26 @@
 import React, { FC } from 'react';
 import styles from './index.module.scss';
-import ContentBlockList from 'molecules/ContentBlockList';
+import ContentBlockList, {
+    ContentBlockListTheme,
+} from 'molecules/ContentBlockList';
 import { ContentBlockTheme } from 'atoms/ContentBlock';
+import { observer } from 'mobx-react-lite';
 
 interface IpropsTextBlockList {
     quantityOptions: number;
+    className?: string;
 }
 
 const AnswerUser: FC<IpropsTextBlockList> = (props) => {
-    const { quantityOptions } = props;
+    const { quantityOptions, className } = props;
     return (
         <ContentBlockList
-            CellQuantity={quantityOptions}
+            className={className}
+            cellQuantity={quantityOptions}
             themeEmpty={ContentBlockTheme.EMPTY}
+            theme={ContentBlockListTheme.LINE}
         ></ContentBlockList>
     );
 };
 
-export default AnswerUser;
+export default observer(AnswerUser);

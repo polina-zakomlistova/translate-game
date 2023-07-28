@@ -1,24 +1,46 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import styles from './index.module.scss';
 import AnswerOptions from 'organisms/AnswerOptions';
 import AnswerUser from 'organisms/AnswerUser';
+import QuestionBlock from 'organisms/QuestionBlock';
+import { observer } from 'mobx-react-lite';
+import useStore from 'hooks/useStore';
 
-interface IpropsTextBlockList {
-    textsList: string[];
-}
+interface IpropsTextBlockList {}
 
-const TranslateGame: FC<IpropsTextBlockList> = (props) => {
-    const { textsList } = props;
+const TranslateGame: FC<IpropsTextBlockList> = () => {
+    const [translateStore] = useStore('translate');
+    const {
+        fetchSentences,
+        currentSentenceRu,
+        currentSentenceEn,
+        sentenceToArray,
+        shuffleArray,
+        removePunctuation,
+    } = translateStore;
+
+    useEffect(() => {
+        fetchSentences();
+    }, []);
+
+    const str = removePunctuation(currentSentenceEn); //удаляем пунктуацию
+    const arraySentenceEn = sentenceToArray(str);
+    const shuffleArraySentenceEn = shuffleArray(arraySentenceEn);
+
     return (
         <div className={styles.wrapper}>
+            <QuestionBlock text={currentSentenceRu} />
+
             <AnswerUser
+                className={styles.margin}
                 quantityOptions={
-                    textsList.length > 0 ? textsList.length - 1 : 0
+                    shuffleArraySentenceEn.length > 0
+                        ? shuffleArraySentenceEn.length - 1
+                        : 0
                 }
             />
-            <AnswerOptions textsList={textsList} />
+            <AnswerOptions textsList={shuffleArraySentenceEn} />
         </div>
     );
 };
-
-export default TranslateGame;
+export default observer(TranslateGame);

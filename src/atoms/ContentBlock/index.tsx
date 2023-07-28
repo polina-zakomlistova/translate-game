@@ -6,6 +6,7 @@ export enum ContentBlockTheme {
     TEXT = 'text',
     EMPTY = 'empty',
     CLEAR = 'clear',
+    MESSAGE = 'message',
 }
 
 interface IpropsTextBlock extends HTMLProps<HTMLDivElement> {
