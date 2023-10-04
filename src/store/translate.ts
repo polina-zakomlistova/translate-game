@@ -2,7 +2,12 @@ import { makeAutoObservable } from 'mobx';
 import { getSentensesForTranslate } from 'apiServices/getSentensesForTranslate';
 import RootStore from './index';
 
-export interface ITranslateStore {
+interface Sentence {
+    en: string;
+    ru: string;
+    isCorrect?: boolean | undefined;
+}
+interface ITranslateStore {
     currentSentenceIndex: number;
     sentences: Sentence[];
     rootStore: RootStore;
@@ -16,12 +21,9 @@ export interface ITranslateStore {
     nextSentence: () => void;
     resetSentences: () => void;
     removePunctuation: (str: string) => string;
-}
-
-interface Sentence {
-    en: string;
-    ru: string;
-    isCorrect?: boolean | undefined;
+    checkSentense: (sentense: string) => boolean;
+    checkSentensesEqual: (sentenseOne: string, sentenseTwo: string) => boolean;
+    shuffleSourseTextList: string[];
 }
 
 export default class TranslateStore implements ITranslateStore {
@@ -37,12 +39,27 @@ export default class TranslateStore implements ITranslateStore {
         return this.sentences[this.currentSentenceIndex];
     }
 
+    get quantytySentences() {
+        return this.sentences.length;
+    }
+    get quantytyCorrectSentences() {
+        return this.sentences.filter((sentence) => sentence.isCorrect === true)
+            .length;
+    }
+
     get currentSentenceRu() {
         return this.currentSentence ? this.currentSentence.ru : '';
     }
 
     get currentSentenceEn() {
         return this.currentSentence ? this.currentSentence.en : '';
+    }
+
+    get shuffleSourseTextList() {
+        const str = this.removePunctuation(this.currentSentenceEn);
+        const arraySentenceEn = this.sentenceToArray(str);
+        const shuffleArraySentenceEn = this.shuffleArray(arraySentenceEn);
+        return shuffleArraySentenceEn;
     }
 
     nextSentence = () => {
@@ -62,6 +79,7 @@ export default class TranslateStore implements ITranslateStore {
     };
 
     arrayToSentence = (arr: string[]): string => {
+        arr = arr.filter((entry) => entry.trim() != '');
         const sentence = arr.join(' ');
         return sentence;
     };
@@ -82,6 +100,31 @@ export default class TranslateStore implements ITranslateStore {
 
     removePunctuation = (str: string): string => {
         return str.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
+    };
+
+    get isCurrentCorrect() {
+        return this.sentences[this.currentSentenceIndex].isCorrect;
+    }
+
+    setIsCorrectValue = (
+        indexSentense: number = this.currentSentenceIndex,
+        isCorrect: boolean
+    ) => {
+        this.sentences[indexSentense].isCorrect = isCorrect;
+    };
+
+    checkSentensesEqual = (
+        sentenseOne: string,
+        sentenseTwo: string
+    ): boolean => {
+        return (
+            this.removePunctuation(sentenseOne.toLocaleLowerCase()) ==
+            this.removePunctuation(sentenseTwo.toLocaleLowerCase())
+        );
+    };
+
+    checkSentense = (sentense: string): boolean => {
+        return this.checkSentensesEqual(sentense, this.currentSentenceEn);
     };
 
     constructor(rootStore: RootStore) {

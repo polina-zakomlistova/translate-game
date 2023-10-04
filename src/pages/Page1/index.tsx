@@ -1,6 +1,7 @@
 import useStore from 'hooks/useStore';
 import React, { FC, useEffect } from 'react';
 import TranslateGame from 'templates/TranslateGame';
+import style from './index.module.scss';
 
 const Page1: FC = () => {
     const [translateStore] = useStore('translate');
@@ -10,7 +11,7 @@ const Page1: FC = () => {
 
     return (
         <>
-            <h1>Translate this sentence</h1>
+            <h1 className={style.header}>Translate this sentence</h1>
 
             <TranslateGame></TranslateGame>
         </>

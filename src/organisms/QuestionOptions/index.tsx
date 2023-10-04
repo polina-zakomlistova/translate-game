@@ -8,33 +8,29 @@ interface IpropsTextBlockList {
     textsList: string[];
     className?: string;
     listId: string;
-    isCorrect: boolean;
     moveItemInOtherList: (dragIndex: number, hoverIndex: number) => void;
     moveItemInOwmList: (dragIndex: number, hoverIndex: number) => void;
 }
 
-const QuestionOptions: FC<IpropsTextBlockList> = (props) => {
+const AnswerOptions: FC<IpropsTextBlockList> = (props) => {
     const {
         textsList,
         className,
         moveItemInOtherList,
         moveItemInOwmList,
         listId,
-        isCorrect,
     } = props;
     return (
         <ContentBlockListDragAnDDrop
             className={className}
             contentList={textsList}
-            themeContent={
-                isCorrect ? ContentBlockTheme.CORRECT : ContentBlockTheme.TEXT
-            }
+            themeContent={ContentBlockTheme.TEXT}
             themeEmpty={ContentBlockTheme.EMPTY}
             moveItemInOtherList={moveItemInOtherList}
-            moveItemInOwmList={moveItemInOwmList}
             listId={listId}
+            moveItemInOwmList={moveItemInOwmList}
         ></ContentBlockListDragAnDDrop>
     );
 };
 
-export default observer(QuestionOptions);
+export default observer(AnswerOptions);
