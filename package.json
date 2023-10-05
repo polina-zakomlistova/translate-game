@@ -1,11 +1,13 @@
 {
     "name": "translate-game",
     "version": "0.1.0",
-    "private": true,
+    "private": false,
     "dependencies": {
         "@mobx-devtools/tools": "^0.0.4",
+        "@testing-library/jest-dom": "^5.17.0",
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
+        "@types/jest": "^29.5.3",
         "@types/node": "^20.4.2",
         "@types/react": "^18.2.15",
         "@types/react-dom": "^18.2.7",
@@ -22,7 +24,7 @@
         "web-vitals": "^2.1.4"
     },
     "scripts": {
-        "predeploy": "webpack --env mode=production",
+        "predeploy": "npm run build",
         "deploy": "gh-pages -d build",
         "start": "react-scripts start",
         "build": "react-scripts build",
@@ -51,6 +53,7 @@
         "@svgr/webpack": "^8.0.1",
         "axios": "^1.4.0",
         "file-loader": "^6.2.0",
+        "gh-pages": "^6.0.0",
         "mobx-react-lite": "^4.0.3",
         "sass": "^1.63.6"
     }
