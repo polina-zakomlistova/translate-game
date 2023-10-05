@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/polina-zakomlistova/translate-game/static/css/main.fd959f2e.css",
+    "main.js": "/polina-zakomlistova/translate-game/static/js/main.4abf8c96.js",
+    "static/media/win.png": "/polina-zakomlistova/translate-game/static/media/win.64aa92a9e6f14a4b8466.png",
+    "index.html": "/polina-zakomlistova/translate-game/index.html",
+    "main.fd959f2e.css.map": "/polina-zakomlistova/translate-game/static/css/main.fd959f2e.css.map",
+    "main.4abf8c96.js.map": "/polina-zakomlistova/translate-game/static/js/main.4abf8c96.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fd959f2e.css",
+    "static/js/main.4abf8c96.js"
+  ]
+}
