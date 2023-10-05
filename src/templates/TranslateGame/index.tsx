@@ -7,8 +7,9 @@ import { observer } from 'mobx-react-lite';
 import useStore from 'hooks/useStore';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { type } from 'os';
-import { ContentBlockTheme } from 'atoms/ContentBlock';
+import { classNames } from 'hooks/classNames';
+
+import winImage from 'assets/image/win.png';
 
 interface IpropsTextBlockList {}
 
@@ -24,12 +25,15 @@ const TranslateGame: FC<IpropsTextBlockList> = () => {
     const {
         fetchSentences,
         shuffleSourseTextList,
+        currentSentenceIndex,
         currentSentenceRu,
-        currentSentenceEn,
         arrayToSentence,
         checkSentense,
         quantytySentences,
         quantytyCorrectSentences,
+        setIsCorrectValue,
+        setNewCurrentSentense,
+        isVictory,
     } = translateStore;
 
     useEffect(() => {
@@ -38,10 +42,12 @@ const TranslateGame: FC<IpropsTextBlockList> = () => {
 
     const [sourceList, setSourceList] = useState<string[]>([]);
     const [destinationList, setDestinationList] = useState<string[]>([]);
-    const [isCorrect, setIsCorrect] = useState<boolean>();
+    const [isCorrect, setIsCorrect] = useState<boolean>(false);
 
     useEffect(() => {
-        setIsCorrect(checkSentense(arrayToSentence(destinationList)));
+        const isCorrectNow = checkSentense(arrayToSentence(destinationList));
+        setIsCorrect(isCorrectNow);
+        setIsCorrectValue(currentSentenceIndex, isCorrectNow);
     }, [destinationList]);
 
     useEffect(() => {
@@ -113,65 +119,57 @@ const TranslateGame: FC<IpropsTextBlockList> = () => {
         return newArray;
     };
 
-    const moveItemToDestination = (dragIndex: number, hoverIndex: number) => {
+    const moveItemToDestination = (dragIndex: number, dropIndex: number) => {
         const itemMoved = sourceList[dragIndex];
         setSourceList((prevList) => {
             return getArrayWithEmptyElement(prevList, dragIndex);
         });
         setDestinationList((prevList) => {
-            return getArrayWithAddedElement(prevList, hoverIndex, itemMoved);
+            return getArrayWithAddedElement(prevList, dropIndex, itemMoved);
         });
     };
 
-    const moveItemToSource = (dragIndex: number, hoverIndex: number) => {
+    const moveItemToSource = (dragIndex: number, dropIndex: number) => {
         const itemMoved = destinationList[dragIndex];
         setDestinationList((prevList) => {
             return getArrayWithEmptyElement(prevList, dragIndex);
         });
         setSourceList((prevList) => {
-            return getArrayWithAddedElement(prevList, hoverIndex, itemMoved);
+            return getArrayWithAddedElement(prevList, dropIndex, itemMoved);
         });
     };
 
     //для перемещеменя между блоками
     const moveItem = useCallback(
-        (dragIndex: number, hoverIndex: number, listType: ListType) => {
+        (dragIndex: number, dropIndex: number, listType: ListType) => {
             if (listType === ListType.SOURCE) {
-                moveItemToSource(dragIndex, hoverIndex);
+                moveItemToSource(dragIndex, dropIndex);
             } else if (listType === ListType.DESTINATION) {
-                moveItemToDestination(dragIndex, hoverIndex);
+                moveItemToDestination(dragIndex, dropIndex);
             }
         },
         [moveItemToDestination, moveItemToSource]
     );
 
-    const moveItemInSource = (dragIndex: number, hoverIndex: number) => {
+    const moveItemInSource = (dragIndex: number, dropIndex: number) => {
         setSourceList((prevList) => {
-            return getArrayWithReplacedElements(
-                prevList,
-                dragIndex,
-                hoverIndex
-            );
+            return getArrayWithReplacedElements(prevList, dragIndex, dropIndex);
         });
     };
 
-    const moveItemInDestination = (dragIndex: number, hoverIndex: number) => {
+    const moveItemInDestination = (dragIndex: number, dropIndex: number) => {
         setDestinationList((prevList) => {
-            return getArrayWithReplacedElements(
-                prevList,
-                dragIndex,
-                hoverIndex
-            );
+            return getArrayWithReplacedElements(prevList, dragIndex, dropIndex);
         });
     };
 
     //для перемещения внутри блока
     const moveItemInOwnList = useCallback(
-        (dragIndex: number, hoverIndex: number, listType: ListType) => {
+        (dragIndex: number, dropIndex: number, listType: ListType) => {
             if (listType === ListType.SOURCE) {
-                moveItemInSource(dragIndex, hoverIndex);
+                moveItemInSource(dragIndex, dropIndex);
             } else if (listType === ListType.DESTINATION) {
-                moveItemInDestination(dragIndex, hoverIndex);
+                moveItemInDestination(dragIndex, dropIndex);
             }
         },
         [moveItemInDestination, moveItemInSource]
@@ -179,42 +177,82 @@ const TranslateGame: FC<IpropsTextBlockList> = () => {
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <div className={styles.wrapper}>
-                <h3>{`${quantytyCorrectSentences}/${quantytySentences}`}</h3>
-                <QuestionBlock text={currentSentenceRu} />
-                <AnswerOptions
-                    isCorrect={isCorrect}
-                    className={styles.margin}
-                    listId={ListType.DESTINATION}
-                    textsList={destinationList}
-                    moveItemInOtherList={(
-                        dragIndex: number,
-                        hoverIndex: number
-                    ) => moveItem(dragIndex, hoverIndex, ListType.DESTINATION)}
-                    moveItemInOwmList={(dragIndex, hoverIndex) =>
-                        moveItemInOwnList(
-                            dragIndex,
-                            hoverIndex,
-                            ListType.DESTINATION
-                        )
-                    }
-                />
-                <QuestionOptions
-                    textsList={sourceList}
-                    listId={ListType.SOURCE}
-                    moveItemInOtherList={(
-                        dragIndex: number,
-                        hoverIndex: number
-                    ) => moveItem(dragIndex, hoverIndex, ListType.SOURCE)}
-                    moveItemInOwmList={(dragIndex, hoverIndex) =>
-                        moveItemInOwnList(
-                            dragIndex,
-                            hoverIndex,
-                            ListType.SOURCE
-                        )
-                    }
-                />
-            </div>
+            {isVictory ? (
+                <div className={styles.victory}>
+                    <p>Все верно! Молодец!</p>
+                    <img src={winImage}></img>
+                </div>
+            ) : (
+                <div className={styles.wrapper}>
+                    <div className={classNames(styles.header, {}, [])}>
+                        <div
+                            className={classNames(styles.points, {}, [])}
+                        >{`${quantytyCorrectSentences}/${quantytySentences}`}</div>
+                    </div>
+                    <div className={styles.main}>
+                        <QuestionBlock
+                            className={classNames(styles.questionBlock, {}, [])}
+                            text={currentSentenceRu}
+                        />
+                        <AnswerOptions
+                            isCorrect={isCorrect}
+                            className={classNames(styles.answerOptions, {}, [])}
+                            listId={ListType.DESTINATION}
+                            textsList={destinationList}
+                            moveItemInOtherList={(
+                                dragIndex: number,
+                                dropIndex: number
+                            ) =>
+                                moveItem(
+                                    dragIndex,
+                                    dropIndex,
+                                    ListType.DESTINATION
+                                )
+                            }
+                            moveItemInOwmList={(dragIndex, dropIndex) =>
+                                moveItemInOwnList(
+                                    dragIndex,
+                                    dropIndex,
+                                    ListType.DESTINATION
+                                )
+                            }
+                        />
+                        <QuestionOptions
+                            className={classNames(
+                                styles.questionOptions,
+                                {},
+                                []
+                            )}
+                            textsList={sourceList}
+                            listId={ListType.SOURCE}
+                            moveItemInOtherList={(
+                                dragIndex: number,
+                                dropIndex: number
+                            ) =>
+                                moveItem(dragIndex, dropIndex, ListType.SOURCE)
+                            }
+                            moveItemInOwmList={(dragIndex, dropIndex) =>
+                                moveItemInOwnList(
+                                    dragIndex,
+                                    dropIndex,
+                                    ListType.SOURCE
+                                )
+                            }
+                        />
+                    </div>
+
+                    <div className={styles.footer}>
+                        <button
+                            className={classNames(
+                                isCorrect ? styles.btn : 'visually-hidden'
+                            )}
+                            onClick={setNewCurrentSentense}
+                        >
+                            Next question
+                        </button>
+                    </div>
+                </div>
+            )}
         </DndProvider>
     );
 };

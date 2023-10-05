@@ -5,8 +5,3 @@
     grid-column-gap: 10px;
     place-items: center;
 }
-
-/* Задаем высоту каждому элементу внутри .wrapper */
-.wrapper * {
-    height: 100%;
-}

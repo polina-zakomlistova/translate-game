@@ -20,7 +20,7 @@ const QuestionBlock: FC<IpropsQuestionBlock> = (props) => {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 253.000000 256.000000"
                 preserveAspectRatio="xMidYMid meet"
-                width="50%"
+                className={styles.image}
             >
                 <g
                     transform="translate(0.000000,256.000000) scale(0.100000,-0.100000)"
@@ -38,7 +38,10 @@ const QuestionBlock: FC<IpropsQuestionBlock> = (props) => {
                     />
                 </g>
             </svg>
-            <ContentBlock theme={ContentBlockTheme.MESSAGE}>
+            <ContentBlock
+                theme={ContentBlockTheme.MESSAGE}
+                className={styles.message}
+            >
                 {text}
             </ContentBlock>
         </div>

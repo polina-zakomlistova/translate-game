@@ -1,32 +1,9 @@
-.App {
-    text-align: center;
-}
-
-.App-header {
-    min-height: 10vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-}
-
-.App-main {
+.app {
+    height: 100%;
     background-color: var(--inverted-bg-color);
-    min-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
     color: var(--inverted-primary-color);
-}
-
-.App-footer {
-    min-height: 10vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: calc(10px + 2vmin);
 }

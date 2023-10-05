@@ -1,35 +1,20 @@
 import { makeAutoObservable } from 'mobx';
 import { getSentensesForTranslate } from 'apiServices/getSentensesForTranslate';
 import RootStore from './index';
+import { ISentence } from 'types/translateGame';
 
-interface Sentence {
-    en: string;
-    ru: string;
-    isCorrect?: boolean | undefined;
-}
-interface ITranslateStore {
-    currentSentenceIndex: number;
-    sentences: Sentence[];
+export default class TranslateStore {
     rootStore: RootStore;
-    currentSentenceRu: string;
-    currentSentenceEn: string;
-    sentenceToArray: (sentence: string) => string[];
-    arrayToSentence: (arr: string[]) => string;
-    fetchSentences: () => Promise<void>;
-    shuffleArray: <T>(array: T[]) => T[];
-    currentSentence: Sentence | undefined;
-    nextSentence: () => void;
-    resetSentences: () => void;
-    removePunctuation: (str: string) => string;
-    checkSentense: (sentense: string) => boolean;
-    checkSentensesEqual: (sentenseOne: string, sentenseTwo: string) => boolean;
-    shuffleSourseTextList: string[];
-}
-
-export default class TranslateStore implements ITranslateStore {
-    rootStore: RootStore;
-    sentences: Sentence[] = [];
+    sentences: ISentence[] = [];
     currentSentenceIndex = 0;
+
+    get isVictory() {
+        let result = false;
+        if (this.quantytySentences > 0) {
+            result = this.quantytyCorrectSentences == this.quantytySentences;
+        }
+        return result;
+    }
 
     fetchSentences = async () => {
         this.sentences = await getSentensesForTranslate();
@@ -110,7 +95,19 @@ export default class TranslateStore implements ITranslateStore {
         indexSentense: number = this.currentSentenceIndex,
         isCorrect: boolean
     ) => {
-        this.sentences[indexSentense].isCorrect = isCorrect;
+        if (this.sentences[indexSentense]) {
+            this.sentences[indexSentense].isCorrect = isCorrect;
+        }
+    };
+
+    setNewCurrentSentense = () => {
+        const indexFirstUnCorrect = this.sentences.findIndex(
+            (sentence) => sentence.isCorrect == false
+        );
+
+        console.log(indexFirstUnCorrect);
+        this.currentSentenceIndex =
+            indexFirstUnCorrect || this.currentSentenceIndex;
     };
 
     checkSentensesEqual = (

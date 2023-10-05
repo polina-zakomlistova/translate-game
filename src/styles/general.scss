@@ -1,0 +1,33 @@
+body {
+    font: var(--font-m);
+    color: var(--primary-color);
+    background: var(--bg-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.header {
+    height: 10vh;
+}
+
+.main {
+    height: 80vh;
+    #root {
+        height: 100%;
+    }
+}
+
+.footer {
+    height: 10vh;
+}

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styles from './index.module.scss';
 import { classNames } from 'hooks/classNames';
 import ContentBlock, { ContentBlockTheme } from 'atoms/ContentBlock';
-import ContentBlockDragAndDrop from 'atoms/ContentBlockDragAnDDrop';
+import ContentBlockDragAndDrop from 'atoms/ContentBlockDragAndDrop';
 
 export enum ContentBlockListTheme {
     LINE = 'line',

@@ -1,19 +1,18 @@
 .block {
-    box-sizing: border-box;
     min-width: 70px;
-    min-height: 30px;
+    min-height: var(--font-line-m);
     padding: 5px;
-    border: 1px solid rgb(201, 201, 201);
+    border: 1px solid var(--block-border-color);
     border-radius: 13px;
 }
 .text {
     background: rgb(255, 255, 255);
-    box-shadow: 0px 8px 4px -6px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 8px 4px -6px var(--block-shadow-color);
 }
 
 .empty {
-    background: #e6e6e6;
-    box-shadow: 0px 8px 4px -6px rgba(0, 0, 0, 0.25) inset;
+    background: var(--inverted-block-color);
+    box-shadow: 0px 8px 4px -6px var(--block-shadow-color) inset;
 }
 
 .clear {
@@ -23,8 +22,8 @@
 }
 
 .correct {
-    background: rgb(151, 248, 112);
-    box-shadow: 0px 8px 4px -6px rgba(0, 0, 0, 0.25);
+    background: var(--correct-color);
+    box-shadow: 0px 8px 4px -6px var(--block-shadow-color);
 }
 
 .message {
@@ -33,10 +32,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #ffffff;
-    border: 2px solid #7d9185;
-    width: 50%;
-    min-height: 50px;
+    background: var(--bg-messag);
+    border: 2px solid var(--border-message);
     height: fit-content;
     padding: 10px;
 }
@@ -53,14 +50,14 @@
 }
 .message::after {
     border-color: rgba(255, 255, 255, 0);
-    border-right-color: #ffffff;
+    border-right-color: rgb(255, 255, 255);
     border-width: 18px;
     top: 50%;
     margin-top: -18px;
 }
 .message::before {
-    border-color: rgba(125, 145, 133, 0);
-    border-right-color: #7d9185;
+    border-color: rgba(255, 255, 255, 0);
+    border-right-color: var(--border-message);
     border-width: 20px;
     top: 50%;
     margin-top: -20px;

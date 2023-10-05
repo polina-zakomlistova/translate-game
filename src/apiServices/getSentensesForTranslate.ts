@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ISentence } from 'types/translateGame';
 
 export const getSentensesForTranslate = async () => {
     const url = `https://academtest.ilink.dev/graphql`;
@@ -17,9 +18,13 @@ export const getSentensesForTranslate = async () => {
 
     try {
         const response = await axios.post(url, { query }, { headers });
-        console.log('!!!!');
+
         if (response?.data?.data?.sentenceAll) {
-            return response.data.data.sentenceAll;
+            const sentenses = response?.data?.data?.sentenceAll;
+            return sentenses.map((sentens: ISentence) => ({
+                ...sentens,
+                isCorrect: false,
+            }));
         }
     } catch (error) {
         console.log('Error fetching sentences:', error);

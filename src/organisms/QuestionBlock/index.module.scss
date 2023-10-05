@@ -1,5 +1,11 @@
 .wrapper {
     display: flex;
-    height: 200px;
-    margin-bottom: 30px;
+    justify-content: space-around;
+    width: 100%;
+}
+.image {
+    max-width: 50%;
+}
+.message {
+    max-width: 50%;
 }

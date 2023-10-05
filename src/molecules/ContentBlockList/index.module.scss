@@ -5,21 +5,3 @@
     grid-column-gap: 10px;
     place-items: center;
 }
-
-// .lined {
-//     position: relative;
-// }
-// .wrapper.line > .lined:nth-child(6n)::after {
-//     content: '';
-//     position: absolute;
-//     bottom: -15px; /* Расположение линии снизу относительно элемента */
-//     left: 0;
-//     right: 0;
-//     height: 1px;
-//     background-color: #000; /* Цвет линии */
-// }
-
-/* Задаем высоту каждому элементу внутри .wrapper */
-.wrapper * {
-    height: 100%;
-}

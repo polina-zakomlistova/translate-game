@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import styles from './index.module.scss';
-import ContentBlockListDragAnDDrop from 'molecules/ContentBlockListDragAnDDrop';
+import ContentBlockListDragAnDDrop from 'molecules/ContentBlockListDragAndDrop';
 import { ContentBlockTheme } from 'atoms/ContentBlock';
 import { observer } from 'mobx-react-lite';
 
