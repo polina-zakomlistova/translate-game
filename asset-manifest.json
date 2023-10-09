@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/translate-game/static/css/main.fd959f2e.css",
-    "main.js": "/translate-game/static/js/main.7b8ba971.js",
+    "main.js": "/translate-game/static/js/main.be480187.js",
     "static/media/win.png": "/translate-game/static/media/win.64aa92a9e6f14a4b8466.png",
     "index.html": "/translate-game/index.html",
     "main.fd959f2e.css.map": "/translate-game/static/css/main.fd959f2e.css.map",
-    "main.7b8ba971.js.map": "/translate-game/static/js/main.7b8ba971.js.map"
+    "main.be480187.js.map": "/translate-game/static/js/main.be480187.js.map"
   },
   "entrypoints": [
     "static/css/main.fd959f2e.css",
-    "static/js/main.7b8ba971.js"
+    "static/js/main.be480187.js"
   ]
 }
