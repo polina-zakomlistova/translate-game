@@ -1,7 +1,9 @@
 {
     "name": "translate-game",
-    "version": "0.1.0",
-    "private": false,
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "homepage": "https://polina-zakomlistova.github.io/translate-game",
     "dependencies": {
         "@mobx-devtools/tools": "^0.0.4",
         "@testing-library/jest-dom": "^5.17.0",

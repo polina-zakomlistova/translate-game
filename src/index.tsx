@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 import './styles/index.scss';
 import App from './App';
 import StoreContext from './context/store';
@@ -17,11 +17,11 @@ injectStores({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-    <BrowserRouter>
+    <Router>
         <StoreContext.Provider value={store}>
             <React.StrictMode>
                 <App />
             </React.StrictMode>
         </StoreContext.Provider>
-    </BrowserRouter>
+    </Router>
 );
